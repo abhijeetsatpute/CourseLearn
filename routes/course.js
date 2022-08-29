@@ -11,7 +11,7 @@ router.post('/course', courseController.postCourse);
 router.get('/courses', courseController.getAllCourses);
 
 // GET course by id param
-router.get('/course:id', courseController.getCourseById);
+router.get('/course/:id', courseController.getCourseById);
 
 
 // GET all courses by matching keyword
