@@ -7,15 +7,14 @@ const courseController = require('../controllers/course');
 // POST add a new course
 router.post('/course', courseController.postCourse);
 
-// GET all the courses
+// GET all the courses a/c to query params 
+//  - OR get all if none are specified
 router.get('/courses', courseController.getAllCourses);
 
 // GET course by id param
 router.get('/course/:id', courseController.getCourseById);
 
 
-// GET all courses by matching keyword
-// router.get('/courses', courseController.getCourseByKeyword);
 
 // GET all courses filtered by price min-max
 // router.get('/courses', courseController.getCoursesSortedByPrice);
