@@ -43,6 +43,9 @@ exports.getCourseById = async (req, res, next) => {
        // Return given id's course
        const course_id = req.params.id;
        const course = await Course.find({_id: course_id});
+       if(!course){
+        return res.status(404).json({message: `Course with id ${course_id} not found`});
+       }
        res.status(200).json({message: `Fetched ${course_id} course`, course: course});
     } catch (error) {
         console.log(error);

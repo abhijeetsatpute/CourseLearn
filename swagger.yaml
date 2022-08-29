@@ -1,0 +1,145 @@
+openapi: 3.0.0
+
+info:
+  title: CourseLearn
+  description: A simple REST API to fetch/create courses a/c to certain queries.
+  version: 1.0.0
+  contact:
+    email: abhijeetsatpute98@gmail.com
+    url: https://github.com/abhijeetsatpute
+
+servers:
+  - url: http://localhost
+    description: Local version of the application
+  - url: https://excelfileup1oad.herokuapp.com
+    description: Production server hosted on heroku
+
+paths:
+  /course:
+    post:
+      summary: Creates a new course and returns it.
+      description: POST create New Course with details such as Name, Type, Duration, Price, Mrp, Discount, Rating, Category, Thumbnail, Demo, PartnerName, Type, Duration, Price, Mrp, Discount, Rating, Category, Thumbnail, Demo, Partner.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Name:
+                  type: string
+                  example: "Node.js Complete guide"
+                Type:
+                  type: string
+                  example: "beginner"
+                Duration:
+                  type: number
+                  example: 40
+                Price:
+                  type: number
+                  example: 399
+                Mrp:
+                  type: number
+                  example: 2000
+                Discount:
+                  type: number
+                  example: 30
+                Rating:
+                  type: number
+                  example: 5
+                Category:
+                  type: string
+                  example: "programming"
+                thumbnail:
+                  type: string
+                  example: "https://picsum.photos/200"
+                Demo:
+                  type: string
+                  example: "https://www.youtube.com/watch?v=TlB_eWDSMt4&t=476s"
+                Partner:
+                  type: string
+                  example: "google"
+      responses:
+        '201':    # status code
+          description: Course Created
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  type: object
+  /course/{id}:
+    get:
+      summary: Returns a course by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the course to return.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK- A Course object Array along with a Message.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Fetched 630d143ef7ddeaba5806562e course
+                  course:
+                    type: array
+        '404':
+          description: A course with the specified ID was not found.
+        default:
+          description: Unexpected error
+  /courses:
+    get:
+      summary: Get a user by ID
+      parameters:
+        - in: query
+          name: keyword
+          schema:
+            type: string
+            items:
+              type: string
+              example: node
+          description: Keyword to match the course names
+        - in: query
+          name: Rating
+          schema:
+            type: number
+            example: 5
+          description: Filtering the courses with Rating of 1-5
+        - in: query
+          name: category
+          schema:
+            type: string
+            enum:
+              - programming
+              - art
+              - business
+          description: Filtering the courses with category type
+        - in: query
+          name: partner
+          schema:
+            type: string
+            enum:
+              - google
+              - facebook
+              - microsoft
+          description: Filtering the courses by partner
+        - in: query
+          name: pricesort
+          schema:
+            type: string
+            example: ascending
+          description: Sorts the courses by price in ascending/descending order
+      responses:
+        '200':
+          description: OK- Fetched all courses
+          content:
+            application/json:
+              schema:
+                type: array
