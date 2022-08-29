@@ -1,11 +1,15 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 const courseRoutes = require('./routes/course');
 
 const app = express();
 dotenv.config();
+
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use(courseRoutes);
 

@@ -3,16 +3,22 @@ const Course = require('../models/course');
 // Create a new Course
 exports.postCourse = async (req, res, next) => {
     try {
-       // Create a new Course with the appropriate Schema
+        // Create a new Course with the appropriate Schema
+        const {Name, Type, Duration, Price, Mrp, Discount, Rating, Category, Thumbnail, Demo, Partner} = req.body;
+        const newCourse = new Course({Name, Type, Duration, Price, Mrp, Discount, Rating, Category, Thumbnail, Demo, Partner});
+        const result = newCourse.save();
+        res.status(201).json({message:'Course Created !', course: newCourse});
     } catch (error) {
         console.log(error);
     }
 };
 
 // Fetch all courses
-exports.getCourses = async (req, res, next) => {
+exports.getAllCourses = async (req, res, next) => {
     try {
-       // Rerturn all the courses back a/c to specified body parameters
+       // Rerturn all the courses back
+       const courses = await Course.find();
+       res.status(200).json({message: `Fetched all ${courses.length} courses`, courses: courses});
     } catch (error) {
         console.log(error);
     }
