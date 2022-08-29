@@ -97,7 +97,7 @@ paths:
           description: Unexpected error
   /courses:
     get:
-      summary: Get a user by ID
+      summary: Get a Course by ID
       parameters:
         - in: query
           name: keyword
