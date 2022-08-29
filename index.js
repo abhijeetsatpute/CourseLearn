@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
 
 const courseRoutes = require('./routes/course');
 
@@ -20,6 +22,9 @@ const accessLogStream = fs.createWriteStream(
 
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+const swaggerDocument = YAML.load('./swagger.yaml');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
