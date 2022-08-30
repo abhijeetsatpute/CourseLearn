@@ -220,7 +220,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: Updated 630d143ef7ddeaba5806562e course
+                    example: Deleted 630d143ef7ddeaba5806562e course
                   course:
                     type: array
         '404':
