@@ -52,6 +52,25 @@ exports.getCourseById = async (req, res, next) => {
     }
 };
 
+// Update course by id
+exports.updateCourseById = async (req, res, next) => {
+    try {
+       // Return updated course
+        const course_id = req.params.id;
+        const update = req.body;
+        const doc = await Course.findOneAndUpdate(
+            {_id: course_id},
+            update
+        );
+        if(!doc){
+            return res.status(404).json({message: `Course with id ${course_id} not found`});
+        }
+        res.status(200).json({message: `Updated ${course_id} course`, course: doc});
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 
 // // Fetch all courses Filter by price: min - max
 // exports.getCoursesSortedByPrice = async (req, res, next) => {

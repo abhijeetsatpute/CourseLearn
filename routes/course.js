@@ -14,6 +14,8 @@ router.get('/courses', courseController.getAllCourses);
 // GET course by id param
 router.get('/course/:id', courseController.getCourseById);
 
+// PUT update course by id
+router.put('/course/:id', courseController.updateCourseById);
 
 
 // GET all courses filtered by price min-max
