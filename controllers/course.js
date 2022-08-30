@@ -1,4 +1,4 @@
-const { validationResult } = require('express-validator/check');
+const { validationResult, body } = require('express-validator/check');
 
 const Course = require('../models/course');
 
@@ -83,6 +83,55 @@ exports.updateCourseById = async (req, res, next) => {
     }
 };
 
+
+exports.validate = (method) => {
+    switch (method) {
+        case 'postCourse': {
+            return [
+                body('Name').isString()
+                    .custom((value, { req }) => {
+                        return Course.findOne({ Name: value }).then((userDoc) => {
+                        if (userDoc) {
+                            return Promise.reject("Course Name Already Exists !");
+                        }
+                        });
+                    }),
+                body('Type').isIn(['beginner', 'intermediate', 'advance']),
+                body('Duration').isNumeric(),
+                body('Price').isNumeric(),
+                body('Mrp').isNumeric(),
+                body('Discount').isNumeric(),
+                body('Rating').isInt({ min: 1, max: 5 }),
+                body('Category').isIn(['programming','art','business']),
+                body('Thumbnail').isURL(),
+                body('Demo').isURL(),
+                body('Partner').isIn(['google','facebook','microsoft'])
+            ]   
+        }
+        case 'updateCourseById' : {
+            return [
+                body('Name').optional().isString()
+                    .custom((value, { req }) => {
+                        return Course.findOne({ Name: value }).then((userDoc) => {
+                        if (userDoc) {
+                            return Promise.reject("Course Name Already Exists !");
+                        }
+                        });
+                    }),
+                body('Type').optional().isIn(['beginner', 'intermediate', 'advance']),
+                body('Duration').optional().isNumeric(),
+                body('Price').optional().isNumeric(),
+                body('Mrp').optional().isNumeric(),
+                body('Discount').optional().isNumeric(),
+                body('Rating').optional().isInt({ min: 1, max: 5 }),
+                body('Category').optional().isIn(['programming','art','business']),
+                body('Thumbnail').optional().isURL(),
+                body('Demo').optional().isURL(),
+                body('Partner').optional().isIn(['google','facebook','microsoft'])
+            ]
+        }
+      }
+}
 
 // // Fetch all courses Filter by price: min - max
 // exports.getCoursesSortedByPrice = async (req, res, next) => {
