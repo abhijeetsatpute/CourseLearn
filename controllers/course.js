@@ -77,7 +77,7 @@ exports.updateCourseById = async (req, res, next) => {
         if(!doc){
             return res.status(404).json({message: `Course with id ${course_id} not found`});
         }
-        res.status(200).json({message: `Updated ${course_id} course`, course: doc});
+        res.status(204).json({message: `Updated ${course_id} course`, course: doc});
     } catch (error) {
         console.log(error);
     }
