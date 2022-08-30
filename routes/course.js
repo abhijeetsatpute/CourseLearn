@@ -29,7 +29,7 @@ router.post(
         body('Category').isIn(['programming','art','business']),
         body('Thumbnail').isURL(),
         body('Demo').isURL(),
-        body('Demo').isIn(['google','facebook','microsoft'])
+        body('Partner').isIn(['google','facebook','microsoft'])
     ], 
     courseController.postCourse
 );
@@ -42,7 +42,29 @@ router.get('/courses', courseController.getAllCourses);
 router.get('/course/:id', courseController.getCourseById);
 
 // PUT update course by id
-router.put('/course/:id', courseController.updateCourseById);
+router.put('/course/:id',
+    [
+        body('Name').optional().isString()
+            .custom((value, { req }) => {
+                return Course.findOne({ Name: value }).then((userDoc) => {
+                if (userDoc) {
+                    return Promise.reject("Course Name Already Exists !");
+                }
+                });
+            }),
+        body('Type').optional().isIn(['beginner', 'intermediate', 'advance']),
+        body('Duration').optional().isNumeric(),
+        body('Price').optional().isNumeric(),
+        body('Mrp').optional().isNumeric(),
+        body('Discount').optional().isNumeric(),
+        body('Rating').optional().isInt({ min: 1, max: 5 }),
+        body('Category').optional().isIn(['programming','art','business']),
+        body('Thumbnail').optional().isURL(),
+        body('Demo').optional().isURL(),
+        body('Partner').optional().isIn(['google','facebook','microsoft'])
+    ],
+    courseController.updateCourseById
+ );
 
 
 // GET all courses filtered by price min-max

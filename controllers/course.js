@@ -61,6 +61,11 @@ exports.getCourseById = async (req, res, next) => {
 
 // Update course by id
 exports.updateCourseById = async (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        console.log(errors.array());
+        return res.status(422).json({message: 'Invalid Data'});
+    }
     try {
        // Return updated course
         const course_id = req.params.id;
