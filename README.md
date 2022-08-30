@@ -2,6 +2,8 @@
 
 Created a simple REST api with Courses data to be fetched and created with express, node.js and mongoose ODM for mongoDB.
 
+Find the API documentation in swagger.yaml file 
+or here: https://courselearn.herokuapp.com/api-docs
 
 API example with Node.js, Express and mongodb
 
