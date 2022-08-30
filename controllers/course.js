@@ -83,6 +83,22 @@ exports.updateCourseById = async (req, res, next) => {
     }
 };
 
+// Delete course by id
+exports.deleteCourseById = async (req, res, next) => {
+    const course_id = req.params.id;
+    try {
+       // Return Deleted course
+        const doc = await Course.findById(course_id);
+        if(!doc){
+            return res.status(404).json({message: `Course with id ${course_id} not found`});
+        }
+        const result = await Course.deleteOne({ _id: course_id});
+        res.status(200).json({message: `Deleted ${course_id} course`, course: doc});
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 
 exports.validate = (method) => {
     switch (method) {

@@ -27,7 +27,13 @@ router.put(
     '/course/:id',
     courseController.validate('updateCourseById'),
     courseController.updateCourseById
- );
+);
+
+// DELETE course by id
+router.delete(
+    '/course/:id',
+    courseController.deleteCourseById
+);
 
 
 // GET all courses filtered by price min-max

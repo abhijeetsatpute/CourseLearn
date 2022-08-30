@@ -161,6 +161,72 @@ paths:
           description: A course with the specified ID was not found.
         default:
           description: Unexpected error
+    delete:
+      summary: Deletes a course by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the course to Update.
+          schema:
+            type: string
+            example: 630d143ef7ddeaba5806562e
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Name:
+                  type: string
+                  example: "Node.js Complete guide"
+                Type:
+                  type: string
+                  example: "beginner"
+                Duration:
+                  type: number
+                  example: 40
+                Price:
+                  type: number
+                  example: 399
+                Mrp:
+                  type: number
+                  example: 2000
+                Discount:
+                  type: number
+                  example: 30
+                Rating:
+                  type: number
+                  example: 5
+                Category:
+                  type: string
+                  example: "programming"
+                Thumbnail:
+                  type: string
+                  example: "https://picsum.photos/200"
+                Demo:
+                  type: string
+                  example: "https://www.youtube.com/watch?v=TlB_eWDSMt4&t=476s"
+                Partner:
+                  type: string
+                  example: "google"
+      responses:
+        '200':
+          description: OK- Deleted course.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Updated 630d143ef7ddeaba5806562e course
+                  course:
+                    type: array
+        '404':
+          description: A course with the specified ID was not found.
+        default:
+          description: Unexpected error
   /courses:
     get:
       summary: Get a Course by ID
