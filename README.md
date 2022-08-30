@@ -27,7 +27,7 @@ GET http://localhost/course/:id
 
 ### Create a new Course
 ```
-POST http://localhost/todos
+POST http://localhost/course
 Content-Type: application/json
 
 {
