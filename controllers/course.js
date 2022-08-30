@@ -1,10 +1,17 @@
+const { validationResult } = require('express-validator/check');
+
 const Course = require('../models/course');
 
 // Create a new Course
 exports.postCourse = async (req, res, next) => {
+    // Create a new Course with the appropriate Schema
+    const {Name, Type, Duration, Price, Mrp, Discount, Rating, Category, Thumbnail, Demo, Partner} = req.body;
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        console.log(errors.array());
+        return res.status(422).json({message: 'Invalid Data'});
+    }
     try {
-        // Create a new Course with the appropriate Schema
-        const {Name, Type, Duration, Price, Mrp, Discount, Rating, Category, Thumbnail, Demo, Partner} = req.body;
         const newCourse = new Course({Name, Type, Duration, Price, Mrp, Discount, Rating, Category, Thumbnail, Demo, Partner});
         const result = newCourse.save();
         res.status(201).json({message:'Course Created !', course: newCourse});

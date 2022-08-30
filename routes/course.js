@@ -1,11 +1,38 @@
 const express = require('express');
+const { check, body } = require('express-validator/check');
 
 const router = express.Router();
+
+const Course = require("../models/course");
 
 const courseController = require('../controllers/course');
 
 // POST add a new course
-router.post('/course', courseController.postCourse);
+// - Adding a validator middleware to validate all the data coming in thru the req
+router.post(
+    '/course', 
+    [
+        body('Name').isString()
+            .custom((value, { req }) => {
+                return Course.findOne({ Name: value }).then((userDoc) => {
+                  if (userDoc) {
+                    return Promise.reject("Course Name Already Exists !");
+                  }
+                });
+            }),
+        body('Type').isIn(['beginner', 'intermediate', 'advance']),
+        body('Duration').isNumeric(),
+        body('Price').isNumeric(),
+        body('Mrp').isNumeric(),
+        body('Discount').isNumeric(),
+        body('Rating').isInt({ min: 1, max: 5 }),
+        body('Category').isIn(['programming','art','business']),
+        body('Thumbnail').isURL(),
+        body('Demo').isURL(),
+        body('Demo').isIn(['google','facebook','microsoft'])
+    ], 
+    courseController.postCourse
+);
 
 // GET all the courses a/c to query params 
 //  - OR get all if none are specified
