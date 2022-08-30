@@ -15,8 +15,10 @@ exports.postCourse = async (req, res, next) => {
         const newCourse = new Course({Name, Type, Duration, Price, Mrp, Discount, Rating, Category, Thumbnail, Demo, Partner});
         const result = newCourse.save();
         res.status(201).json({message:'Course Created !', course: newCourse});
-    } catch (error) {
-        console.log(error);
+    } catch (err) {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        next(error);
     }
 };
 
@@ -39,37 +41,41 @@ exports.getAllCourses = async (req, res, next) => {
        // Rerturn all the courses back a/c to Queries formed above
         let courses = await Course.find(query).sort(sortQuery);
         res.status(200).json({message: `Fetched all ${courses.length} courses`, courses: courses});
-    } catch (error) {
-        console.log(error);
+    } catch (err) {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        next(error);
     }
 };
 
 // Fetch course by id
 exports.getCourseById = async (req, res, next) => {
+    const course_id = req.params.id;
     try {
        // Return given id's course
-       const course_id = req.params.id;
        const course = await Course.find({_id: course_id});
        if(!course){
         return res.status(404).json({message: `Course with id ${course_id} not found`});
        }
        res.status(200).json({message: `Fetched ${course_id} course`, course: course});
-    } catch (error) {
-        console.log(error);
+    } catch (err) {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        next(error);
     }
 };
 
 // Update course by id
 exports.updateCourseById = async (req, res, next) => {
     const errors = validationResult(req);
+    const course_id = req.params.id;
+    const update = req.body;
     if(!errors.isEmpty()) {
         console.log(errors.array());
         return res.status(422).json({message: 'Invalid Data'});
     }
     try {
        // Return updated course
-        const course_id = req.params.id;
-        const update = req.body;
         const doc = await Course.findOneAndUpdate(
             {_id: course_id},
             update
@@ -78,13 +84,16 @@ exports.updateCourseById = async (req, res, next) => {
             return res.status(404).json({message: `Course with id ${course_id} not found`});
         }
         res.status(204).json({message: `Updated ${course_id} course`, course: doc});
-    } catch (error) {
-        console.log(error);
+    } catch (err) {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        next(error);
     }
 };
 
 // Delete course by id
 exports.deleteCourseById = async (req, res, next) => {
+    
     const course_id = req.params.id;
     try {
        // Return Deleted course
@@ -94,8 +103,10 @@ exports.deleteCourseById = async (req, res, next) => {
         }
         const result = await Course.deleteOne({ _id: course_id});
         res.status(200).json({message: `Deleted ${course_id} course`, course: doc});
-    } catch (error) {
-        console.log(error);
+    } catch (err) {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        next(error);
     }
 };
 
@@ -148,39 +159,3 @@ exports.validate = (method) => {
         }
       }
 }
-
-// // Fetch all courses Filter by price: min - max
-// exports.getCoursesSortedByPrice = async (req, res, next) => {
-//     try {
-//        // Return all courses sorted in asc/desc price
-//     } catch (error) {
-//         console.log(error);
-//     }
-// };
-
-// // Fetch all courses Filter by ratings: 1-5
-// exports.getCoursesSortedByRatings = async (req, res, next) => {
-//     try {
-//        // Return all courses sorted in asc/desc ratings
-//     } catch (error) {
-//         console.log(error);
-//     }
-// };
-
-// // Fetch all courses Filter by category: programming/art/business
-// exports.getCoursesByCategory = async (req, res, next) => {
-//     try {
-//        // Return all courses filtered by category
-//     } catch (error) {
-//         console.log(error);
-//     }
-// };
-
-// // Fetch all courses Filter by partner: google/facebook/microsoft
-// exports.getCourseByPartner = async (req, res, next) => {
-//     try {
-//        // Return all courses Filtered by partner
-//     } catch (error) {
-//         console.log(error);
-//     }
-// };
