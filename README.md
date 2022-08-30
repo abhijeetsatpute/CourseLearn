@@ -52,17 +52,7 @@ PUT http://localhost/course/:id
 Content-Type: application/json
 
 {
-    "Name": "React.js the complete guide",
-    "Type": "intermediate",
-    "Duration": "50",
-    "Price": "500",
-    "Mrp": "1500",
-    "Discount": "30",
-    "Rating": "4",
-    "Category": "programming",
-    "Thumbnail": "https://picsum.photos/200",
-    "Demo": "https://www.youtube.com/watch?v=TlB_eWDSMt4&t=476s",
-    "Partner": "google"
+    "Discount": "80",
 }
 
 ```
