@@ -9,10 +9,10 @@ info:
     url: https://github.com/abhijeetsatpute
 
 servers:
+  - url: https://courselearn.herokuapp.com
+    description: Production server hosted on heroku
   - url: http://localhost
     description: Local version of the application
-  - url: https://excelfileup1oad.herokuapp.com
-    description: Production server hosted on heroku
 
 paths:
   /course:
